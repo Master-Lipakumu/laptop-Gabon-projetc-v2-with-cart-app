@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="content d-flex justify-content-around">
+    <div class="column">
+        <h4> Entreprise </h4>
+        <a href="{% url 'entreprise'%}"><button type="button" class="btn btn-info">liste des entreprises</button></a><br><br>
+        <a href="{% url 'entreprise-created'%}"><button type="button" class="btn btn-info">ajouter des entreprises</button></a>
+    </div>
+    <div class="column">
+        <h4> Convention </h4>
+        <a href="{% url 'client-convention'%}"><button type="button" class="btn btn-info">liste des Conventions</button></a><br><br>
+        <a href="{% url 'client-convention-created'%}"><button type="button" class="btn btn-info">ajouter un client Conventionnel</button></a>
+    </div>
+    <div class="column">
+        <h4> Administration </h4>
+        <a href="{% url 'administration'%}"><button type="button" class="btn btn-info">liste des administrations</button></a><br><br>
+        <a href="{% url 'adminstration-created'%}"><button type="button" class="btn btn-info">ajouter des administrations</button></a>
+    </div>
+    <div class="column">
+        <h4> Particulier </h4>
+        <a href="{% url 'clientparticluier'%}"><button type="button" class="btn btn-info">liste des clients particluiers</button></a><br><br>
+        <a href="{% url 'clientparticluier-created'%}"><button type="button" class="btn btn-info">ajouter des clients particluiers</button></a>
+    </div>
+
+</div>
+
+
+{% endblock content %}

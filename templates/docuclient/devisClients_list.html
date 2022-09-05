@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<br>
+<div class="content d-flex justify-content-around">
+  <div class="column">
+      <a href="{% url 'alldocuments'%}"><button type="button" class="btn btn-info"><i class="fa-solid fa-arrow-left-long"></i></button></a>
+  </div>
+</div>
+<br>
+<div class="content">
+    <br>
+    
+    <h2> liste complet des devis</h2><hr>
+    <br>
+
+    <button onclick="HtmlTOExcel('xls')" class="btn btn-success">EXCEL</button>
+
+    <br>
+
+    <hr>
+    {% for i in factures_list %}
+    <table class="table table-dark" id="tableToExcel">
+        <thead>
+          <tr>
+            <th scope="col"> ID </th>
+            <th scope="col"> NUMBER </th>
+            <th scope="col"> DATE-TIME </th>
+            <th scope="col"> AUTHOR </th>
+          </tr>
+        </thead>
+        
+        <tbody>
+          
+          <tr>
+            <th scope="row">{{ i.id }}</th>
+            <td>
+              <a href="{% url 'factureDetail' i.id%}">
+                {{ i.facture_number }}
+              </a>
+              </td>
+            <td>{{ i.date_created }}</td>
+            <td>{{ i.author.username }}</td>
+          </tr>
+        </tbody>
+      </table>
+      {% empty %}
+        <p> ouh là là vous n'avez pas encore de facture enregistre </p>
+      {% endfor %}
+
+</div>
+
+
+{% endblock content %}

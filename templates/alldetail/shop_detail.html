@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<br>
+<div class="content">
+    <div class="card mb-3">
+        <img class="card-img-top w-50 h-50 p-3" src="{{object.shop_image.url}}" alt="{{ object.name }}">
+        <div class="card-body">
+          <h5 class="card-title">{{ object.name }} | le responsable de la boutique a pour nom : {{object.responsable_name}}</h5>
+          <h6 class="card-text"><small class="text-muted">{{object.phone_number}} | email : {{object.email}}</small></h6>
+          <h6 class="card-text"><small class="text-muted">{{object.localisation}} | crée par : {{object.author.username}}</small></h6>
+          <p class="card-text">{{object.description}}.</p>
+          <p class="card-text"><small class="text-muted">si actif : {{object.active}}</small></p>
+          <p class="card-text"><small class="text-muted">crée le : {{object.date_created}}</small></p>
+          <p class="card-text"><small class="text-muted">derniere mise a jour le : {{object.date_updated}}</small></p>
+        </div>
+        <div class="container">
+        <a href="{% url 'Shop'%}"><button type="button" class="btn btn-primary">revenir à la liste</button></a>
+        <br>
+        <br>
+        <a href="{% url 'shop-update' object.id%}"><button type="button" class="btn btn-success">Editer</button></a>
+        <br>
+        </div>
+        <br>
+      </div>
+
+
+</div>
+
+
+{% endblock content %}

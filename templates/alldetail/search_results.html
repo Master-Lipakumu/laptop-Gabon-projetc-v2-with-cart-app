@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+    {% load static %}
+
+    {% block content %}
+<br>    
+    <h2>resultat de votre recherche |  <a href="{% url 'order_summary' %}">panier <i class="fa-solid fa-cart-shopping"></i></a></h2> <hr>
+    <br>
+    
+        <div class="row">
+            {% for article  in object_list %}
+                <div class="col-lg-4 col-sm-6 mb-4" style="max-height:400px;">
+                    <div class="portfolio-item">
+                        <a class="portfolio-link" data-toggle="modal" href="{% url 'articles-detail' article.id%}">
+                            <a href="{% url 'articles-detail' article.id%}"><img class="img-fluid" src="{{ article.article_image.url }}" alt="{{ article.name }}" style="width:100%;max-height:200px;"/></a>
+                        </a>
+                        <div class="portfolio-caption">
+                            <div class="portfolio-caption-heading bg-success text-white">{{ article.name }}</div>
+                                <p class="card-text bg-warning text-dark">reste en stock: {{article.stock_total_after}}</p>
+
+                            <div class="portfolio-caption-subheading bg-primary text-white" style="width:100%;max-height:200px;">model : {{article.model}}</div>
+                            {% if article in user.profile.articles.all %}
+                            <!-- add a button here to see the product -->
+                            You own this
+                            {% elif article in current_order_products %}
+                            <a href="{% url 'order_summary' %}" class="btn btn-warning">Go to Cart</a>
+                            {% else %}
+                            <a href="{% url 'add_to_cart' article.id %}" class="btn btn-warning">Add to Cart</a>
+                            <br>
+                            <!-- quantit et ajout de cart -->
+                            <form action="{% url 'add_to_cart' article.id %}" method="post">
+                                {% csrf_token %}
+                                {{ form }}
+                              <input type="submit" value="add to cart" class="btn btn-primary">
+                            </form>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                
+                {% empty %}
+
+                <h1> ouh la la nous n'avons pas pu trouver votre d'article</h1>
+
+            {% endfor %}
+            <br>
+            
+            
+
+
+    {% endblock content %}

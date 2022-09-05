@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="content">
+  <br>
+  <div class="content d-flex justify-content-around">
+    <div class="column">
+        <a href="{% url 'alldocuments'%}"><button type="button" class="btn btn-info"><i class="fa-solid fa-arrow-left-long"></i></button></a>
+    </div>
+  </div>
+  <br>
+    <br>
+    <h2> liste complet des Clients</h2><hr>
+    <br>
+    
+    <button onclick="HtmlTOExcel('xls')" class="btn btn-success">EXCEL</button>
+
+    <br>
+
+    <hr>
+    
+    
+    <table id="tableToExcel" class="table table-dark">
+      
+        <thead>
+          <tr>
+            <th scope="col"> ID </th>
+            <th scope="col"> NAME </th>
+            <th scope="col"> PHONE NUMBER </th>
+            <th scope="col"> EMAIL </th>
+            <th scope="col"> NOMBRE DE PAYEMENT </th>
+            <th scope="col"> PAYEMENT</th>
+            <th scope="col"> DOCUMENT </th>
+            <th scope="col"> TYPE 2 </th>
+          </tr>
+        </thead>
+        {% for i in ALLClientDatas %}
+        <tbody>
+          <tr>
+            <th scope="row">{{ i.id }}</th>
+            <td><a href="{% url 'detailallclientdata' i.id%}">{{ i.client_Name }}</a></td>
+            <td>{{ i.partenary_code }}</td>
+            <td>{{ i.email_Address }}</td>
+            <td>{{ i.modalite_paiement }}</td>
+            <td>{{ i.type_payment }}</td>
+            <td>{{ i.document_choices }}</td>
+            <td>{{ i.nation_choices }}</td>
+          </tr>
+        </tbody>
+        {% empty %}
+        <p> ouh là là vous n'avez pas encore de entreprise enregistre </p>
+      {% endfor %}
+      </table>
+      
+
+</div>
+
+{% endblock content %}

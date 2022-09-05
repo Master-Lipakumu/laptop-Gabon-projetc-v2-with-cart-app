@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<br>
+<div class="card">
+    <div class="card-header">
+      {{ object.name }}
+    </div>
+    <div class="card-body">
+      <h5 class="card-title"> {{object.name}} | crée par : {{object.author.username}}</h5>
+      <p class="card-text">{{object.description}}.</p>
+      <p class="card-text text-muted">crée le : {{object.date_created}}.</p>
+      <p class="card-text text-muted">derniere mise a jour le : {{object.date_updated}}.</p>
+      <p class="card-text text-muted">si active : {{object.active}}.</p>
+      <p class="card-text text-muted">viens du magazin : {{object.shop}}.</p>
+      <a href="{% url 'category'%}" class="btn btn-primary">revenir a la liste </a>
+      <a href="{% url 'category-updated' object.id%}" class="btn btn-success">EDITER </a>
+    </div>
+    
+</div>
+
+
+{%endblock content%}

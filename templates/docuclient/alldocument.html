@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="content d-flex justify-content-around">
+    <div class="column">
+        <h4> TOUTES LES FACTURES </h4>
+        <a href="{% url 'facture'%}"><button type="button" class="btn btn-info">voir les factures</button></a><br><br>
+        <a href="{% url 'facture-created'%}"><button type="button" class="btn btn-info">faire une facture</button></a>
+    </div>
+    <div class="column">
+        <h4> TOUS LES DEVIS </h4>
+        <a href="{% url 'devisclient'%}"><button type="button" class="btn btn-info">voir les devis</button></a><br><br>
+        <a href="{% url 'devisclient-created'%}"><button type="button" class="btn btn-info">faire un devis</button></a>
+    </div>
+    <div class="column">
+        <h4> TOUTE LES DEMANDES DE RAVITAILLEMENTS </h4>
+        <a href="{% url 'ravite'%}"><button type="button" class="btn btn-info">voir les demande de ravitaillement</button></a><br><br>
+        <a href="{% url 'ravite-created'%}"><button type="button" class="btn btn-info">faire une demande de ravitaillement</button></a>
+    </div>
+    <div class="column">
+        <h4>TOUS LES BONS DE LIVRAISON </h4>
+        <a href="{% url 'livraison'%}"><button type="button" class="btn btn-info">voir les bons de livraison </button></a><br><br>
+        <a href="{% url 'livraison-created'%}"><button type="button" class="btn btn-info">faire un bon de livraison </button></a>
+    </div>
+
+</div>
+
+
+{% endblock content %}

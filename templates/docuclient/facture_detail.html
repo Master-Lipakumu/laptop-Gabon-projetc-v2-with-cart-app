@@ -1,0 +1,96 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+
+        <title> LAPTOP GABON </title>
+        <script>
+            function printFunction() { 
+                window.print(); 
+              }
+        </script>
+    </head>
+    <body style="margin:0;padding:0;box-sizing:border-box;">
+        <button onclick="printFunction()" class="btn btn-light">Print</button>
+        <section id="allpage" style="margin-right:20px;margin-left:20px;padding:2px;">
+            <div class="container">
+                <div class="content" style="display:flex;justify-content:space-between;align-item:center;">
+                    <img src="{% static 'images/docuclient/laptopgabon_logo.jpg'%}" alt="Laptop Logo"
+                    style="width:200px;height:200px;">
+
+                    <h2>FACTURE N°: F00{{object.id}}</h2>
+                </div>
+            </div>
+            <div class="container">
+                <div class="content" style="display:flex;justify-content:space-around;align-item:center;font-size:10px;">
+                    <p>SARL au capital de 1.000.000Fcfa<br>
+                        RCCM N°GA-LBV-01-2022-B12-00015<br>
+                        NIF 202201001356-T<br>
+                        181 AV.Charles IGOHO DEMBA<br>
+                        Feux Tricolores de LONDON<br>
+                        BP:5803 / LIBREVILLE(GABON)<br>
+                        TEL: +241 (0) 65341497 / 74 30 34 98<br>
+                        suivi par : {{object.author.username}}</p>
+                        
+
+                    <div class="content" style="margin-left:50%;">
+                        <h5> CLIENTNAME </h5>
+                        <p> {{object.partenary_code}} <br>
+                        type : {{object.nation_choices}}<br>
+                        BP: <br>
+                        TEL: </p>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <br>
+                <table style="border-collapse: collapse; font-size: 10px;width:100%;">
+                    <tr>
+                      <td style="border: 1px solid black;padding: 10px;">REFERENCE</td>
+                      <td style="border: 1px solid black;padding: 10px;">DESIGNATION</td>
+                      <td style="border: 1px solid black;padding: 10px;">Prix unit Ht</td>
+                      <td style="border: 1px solid black;padding: 10px;">quantité</td>
+                      <td style="border: 1px solid black;padding: 10px;">Montant Ht</td>
+                    </tr>
+                    {% for i in object.facture_article.all %}
+                    <tr>
+                        
+                      <td style="border: 1px solid black;padding: 10px;"><img src="{{i.barcode.url}}" alt="{{i.model}}" style="width:90px;height:25px;"/> {{ i.article_id }} / {{ i.name }}</td>
+                      <td style="border: 1px solid black;padding: 10px;">{{ i.model }}  :  {{ i.description }}</td>
+                      <td style="border: 1px solid black;padding: 10px;">{{ i.price }}</td>
+                      <td style="border: 1px solid black;padding: 10px;">{{ i.quantite_client }}</td>
+                      <td style="border: 1px solid black;padding: 10px;">{{ i.montant_total }}</td>
+                    </tr>
+                    {% endfor %}
+                    
+                </table>
+                <br><hr>
+                <div class="content" style="display:flex;justify-content:space-around;">
+                    <h5>commentaire</h5><hr>
+                    
+                        <table style="font-size: 10px;">
+                            <tr>
+                              <td>Base HT: </td>
+                              <td>FCFA</td>
+                            </tr>
+                            <tr>
+                              <td>Remise: </td>
+                              <td>-{{object.reduction_number}} %</td>
+                              
+                            </tr>
+                            <tr>
+                                <td>Total HT: </td>
+                                <td> FCFA</td>
+                            </tr>
+                            <tr> 
+                              <td>Total TTC: </td>
+                              <td> FCFA</td>
+                            </tr>
+                        </table>
+                    
+                </div>
+            </div>
+        </section>
+        
+    </body>
+</html>

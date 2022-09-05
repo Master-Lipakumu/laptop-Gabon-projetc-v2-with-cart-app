@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<br>
+<div class="content d-flex justify-content-around">
+  <div class="column">
+      <a href="{% url 'users'%}"><button type="button" class="btn btn-info"><i class="fa-solid fa-arrow-left-long"></i></button></a>
+  </div>
+</div>
+<br>
+<div class="content">
+    <br>
+    <h2> liste complet des utilisateur </h2><hr>
+    <h5> nombre total des utilisateur : {{total_number}}</h5><hr>
+    <br>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">nom d'utilisateur </th>
+          <th scope="col">email</th>
+          <th scope="col">status staff / status superuser </th> 
+        </tr>
+      </thead>
+      <tbody>
+        {% for i in users %}
+        <tr>
+          <th scope="row">{{i.id}}</th>
+          <td><a href="{% url 'users-detail' i.id %}">{{i.username}}</a></td>
+          <td><a href="{% url 'users-detail' i.id %}">{{i.email}}</a></td>
+          <td><a href="{% url 'users-detail' i.id %}">{{i.is_staff }} / {{i.is_superuser}}</a></td>
+          
+        </tr>
+        {% empty %}
+        <p> ouh là là vous n'avez pas encore de facture enregistre </p>
+      {% endfor %}
+      </tbody>
+    </table>
+      
+
+</div>
+
+
+{% endblock content %}

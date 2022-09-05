@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<br>
+<div class="content d-flex justify-content-around">
+  <div class="column">
+      <a href="{% url 'alldocuments'%}"><button type="button" class="btn btn-info"><i class="fa-solid fa-arrow-left-long"></i></button></a>
+  </div>
+</div>
+<br>
+<div class="content">
+    <br>
+    <br>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">nom d'utilisateur </th>
+          <th scope="col">email</th>
+          <th scope="col">status staff</th> 
+          <th scope="col">status superuser </th>
+          <th scope="col">dernier connection  </th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr>
+          <th scope="row">{{object.id}}</th>
+          <td>{{object.username}}</td>
+          <td>{{object.email}}</a></td>
+          <td>{{object.is_staff }}</a></td>
+          <td>{{object.is_superuser}}</a></td>
+          <td>{{object.profile.image}}</a></td>
+          
+        </tr>
+        
+      </tbody>
+    </table>
+      
+
+</div>
+
+
+{% endblock content %}

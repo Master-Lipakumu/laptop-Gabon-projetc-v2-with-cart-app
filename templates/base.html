@@ -1,0 +1,137 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block css %}
+        <link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}">
+            <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <!-- font awesome css -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/fontawesome.min.css" integrity="sha512-xX2rYBFJSj86W54Fyv1de80DWBq7zYLn2z0I9bIhQG+rxIF6XVJUpdGnsNHWRa6AvP89vtFupEPDP8eZAtu9qA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    {% endblock css%}
+    <title> {%block title %} LAPTOP GABON {% endblock title%} </title>
+</head>
+<body>
+    <section id="navbar">
+        <header>
+
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <div class="container">
+                  <a class="navbar-brand" href="{% url 'home'%}">LAPTOP GABON DESKTOP</a>
+                  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                  </button>
+                  {% if user.is_authenticated %}
+                  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                      <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'home'%}">Home <span class="sr-only">(current)</span></a>
+                      </li>
+                      {% if user.is_staff %}
+                      <li class="nav-item">
+                        <a class="nav-link" href="{%url 'alldocuments'%}">DOCUMENT </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="{% url 'allclientdata'%}">CLIENT</a>
+                      </li>
+                      <li class="nav-item">
+                        <form action="{% url 'search_results' %}" method="get">
+                          {% csrf_token %}
+                          <input name="q" type="text" placeholder="recherche...">
+                        </form>
+                      </li>
+                      {% endif %}
+                      {% if user.is_superuser %}
+                      <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          MANAGEMENT SUPER USER
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                          <a class="dropdown-item" href="{% url 'Shop'%}">shop</a>
+                          <a class="dropdown-item" href="{% url 'shop-created'%}">new shop</a>
+                          <a class="dropdown-item" href="{% url 'category'%}">category</a>
+                          <a class="dropdown-item" href="{% url 'category-created'%}">new category</a>
+                          <a class="dropdown-item" href="{% url 'product'%}">product</a>
+                          <a class="dropdown-item" href="{% url 'product-created'%}">new product</a>
+                          <div class="dropdown-divider"></div>
+                          <a class="dropdown-item" href="{% url 'articles-created'%}">new article</a>
+                          <a class="dropdown-item" href="{% url 'users'%}">users</a>
+                        </div>
+                      </li>
+                      {% endif %}
+                      <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout'%}">LOGOUT</a>
+                      </li>
+                      {% else %}
+                      <li class="nav-item">
+                          <a class="nav-link" href="{% url 'login'%}">LOGIN</a>
+                      </li>
+                      {% endif %}
+                    </ul>
+                    
+                  </div>
+              </div>
+            </nav>
+        </header>
+    </section>
+    <div class="container">
+      {% if messages %}
+          {% for msg in messages %}
+              <div class="alert alert-{{msg.tags}}">
+                  {{msg}}
+              </div>
+              {% endfor %}
+          {% endif %}
+    </div>
+    <section id="center">
+        <div class="container">
+            {% block content %}
+
+            {%  endblock content %}
+        </div>
+    </section>
+    {% if user.is_authenticated %}
+    <section id="footer">
+      <footer class="pied_de_page">
+        <div class="container d-flex justify-content-between" >
+          <div class="content" style="border: 2px solid black;border-radius:7px;padding:7px;align-item:center;
+          text-align:center;width:30%;height:110px;">
+            <h5 style="margin-bottom:45px;">VISA LAPTOP GABON</h5>
+            <p>{% now "SHORT_DATETIME_FORMAT" %}</p>
+            
+          </div>
+          <div class="content" style="border: 2px solid black;border-radius:7px;padding:7px;align-item:center;
+          text-align:center;width:30%;height:110px;">
+          {% for item in profile %}
+          <h5 style="margin-bottom:45px;">RECU PAR: {{item.user.username}}</5>
+          {% endfor %}
+          <p style="margin-top:30px;font-size:15px">{% now "jS F Y" %} | Signature</p>
+          </div>
+          
+          <div class="content" style="border: 2px solid black;border-radius:7px;padding:7px;align-item:center;
+          text-align:center;width:30%;height:110px;">
+          <h5>OBSERVATIONS</h5>
+          </div>
+          
+        </div>
+      </footer>
+    </section>
+    {% endif %}
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    
+    {% block scripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="{% static 'js/excel.js'%}"></script>
+    <script src="{% static 'js/print.js'%}"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+    {% endblock scripts %}
+</body>
+</html>

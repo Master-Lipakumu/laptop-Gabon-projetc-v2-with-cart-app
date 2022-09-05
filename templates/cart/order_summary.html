@@ -1,0 +1,278 @@
+{% extends 'base.html'%}
+
+{% load static %}
+
+{% load mathfilters %}
+
+{%block content %}
+<br>
+  <button onclick="printFunction()" type="button" id="submit" class="btn btn-light">Print</button>
+
+<section id="section_to_capture">
+  <div class="container">
+    <div class="content" style="display:flex;justify-content:space-between;align-item:center;">
+        <img src="{% static 'images/docuclient/laptopgabon_logo.jpg'%}" alt="Laptop Logo"
+        style="width:200px;height:200px;">
+
+        <h2>{{client.document_choices}} N°: LT00{{client.id}}</h2>
+    </div>
+  </div>
+  <div class="container">
+    <div class="content" style="display:flex;justify-content:space-around;align-item:center;font-size:10px;">
+        <p>SARL au capital de 1.000.000Fcfa<br>
+            RCCM N°GA-LBV-01-2022-B12-00015<br>
+            NIF 202201001356-T<br>
+            181 AV.Charles IGOHO DEMBA<br>
+            Feux Tricolores de LONDON<br>
+            BP:5803 / LIBREVILLE(GABON)<br>
+            TEL: +241 (0) 65341497 / 74 30 34 98<br>
+            {% for item in profile %}
+            document émis par : {{item.user.username}}</p>
+            {% endfor %}
+            
+
+        <div class="content" style="margin-left:50%;">
+          
+            <h5> {% if order.get_cart_items %}
+              <a href="{% url 'allclientdatacreateview' %}" class="pull-right btn btn-light">Client : </a>
+            {% endif %} {{client.client_Name}} </h5>
+            <p>  <br>
+            Email : {{client.email_Address}}<br>
+            BP: {{client.postal_Code}}<br>
+            TEL: {{client.phone_number}}<br>
+          Address: {{client.address}}<br>
+        Code partenaire: {{client.partenary_code}}
+      Enregistré par: {{client.author.username}}</p>
+            
+        </div>
+    </div>
+  </div>
+</section>
+<br>
+<br>
+<section id="section_to_capture">
+  <div class="row">
+    <table class="table table-hover table-bordered text-center">
+      <tr class="text-center">
+        <th>no.</th>
+        <th>REFERENCE</th>
+        <th>DESIGNATION</th>
+        <th>BarCode id</th>
+        <th>Quantité</th>
+        <th>Prix unitaire</th>
+      </tr>
+      {% for item in order.get_cart_items %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>
+            {{ item.articles.article_id }}
+          </td>
+          <td>
+            <p>{{ item.articles.name }}, {{ item.articles.model }}.<br> {{item.articles.description}}.</p>
+           <span class="pull-right">
+             <a href="{% url 'delete_item' item.id %}" data-balloon="remove this item from cart" class="text-danger" onclick="return confirm_delete();">
+               <i class="fas fa-trash"></i>
+             </a>
+           </span>
+          </td>
+          <td>
+           <img src="{{ item.articles.barcode.url }}" alt="{{item.articles.name}}" style="width:120px;height:100%"/>
+          </td>
+          <td>
+          <a href="{% url 'articles-updated-staff' item.id %}" data-balloon="remove this item from cart" class="text-danger" onclick="return confirm_delete();">
+          {{ item.articles.quantite_client }} <i class="fa-light fa-pen-line"></i>
+          </a>
+        </td>
+          <td>{{ item.articles.price }}</td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan= 3> You have not added any items yet.</td>
+        </tr>
+      {% endfor %}
+      <tr>
+        {% if order.get_cart_total_qt != None %}
+        <td colspan=2>
+          <strong class="pull-right">quantité Total:</strong>
+        </td>
+        
+        <td colspan= 1>
+        <strong>{{ order.get_cart_total_qt }} </strong>
+        </td>
+        {% endif %}
+      </tr>
+      <tr>
+        {% if order.get_cart_total != None %}
+        <td colspan=2>
+          <strong class="pull-right">prix Total unitaire Ht:</strong>
+        </td>
+        
+        <td colspan= 1>
+        <strong>{{ order.get_cart_total }} </strong>F CFA
+        </td>
+        {% endif %}
+      </tr>
+      <tr>
+        
+        <td colspan=2>
+          <strong class="pull-right">REMISE:</strong>
+        </td>
+        
+        <td colspan= 1>
+          
+          {% if client.remise != None %}
+          {% with numerator=client.remise denominator=100 %}
+        <strong>-{{ client.remise }}% | {{order.get_card_very_total|sub:numerator|div:denominator}} </strong>F CFA
+        {% endwith %}
+        {% else %}
+        <p> </p>
+        {% endif %}
+        </td>
+        
+      </tr>
+      <tr>
+        
+        <td colspan=2>
+          <strong class="pull-right">TPS:</strong>
+        </td>
+        
+        <td colspan= 1>
+          {% if client.remise != None %}
+          {% with numerator1=client.remise denominator1=100 %}
+          {% if client.taxe_TPS != None %}
+          {% with numerator=client.taxe_TPS denominator=100 %}
+        <strong>-{{ client.taxe_TPS }}% |  {{order.get_card_very_total|sub:numerator1|div:denominator1|sub:numerator|div:denominator}}</strong>F CFA
+        {% endwith %}
+        {% else %}
+        <p> </p>
+        {% endif %}
+        {% endwith %}
+        {% else %}
+        <p> </p>
+        
+        {% endif %}
+        </td>
+        
+      </tr>
+      <tr>
+        
+        <td colspan=2>
+          <strong class="pull-right">CSS:</strong>
+        </td>
+        
+        <td colspan= 1>
+          {% if client.remise != None %}
+          {% with numerator1=client.remise denominator1=100 %}
+          {% if client.taxe_TPS != None %}
+          {% with numerator2=client.taxe_TPS denominator2=100 %}
+          {% if client.taxe_CSS != None %}
+          {% with numerator=client.taxe_CSS denominator=100 %}
+        <strong>{{ client.taxe_CSS }}% |  {{order.get_card_very_total|sub:numerator1|div:denominator1|sub:numerator2|div:denominator2|add:numerator|div:denominator}}</strong>F CFA
+        {% endwith %}
+        {% else %}
+        <p> </p>
+        {% endif %}
+        {% endwith %}
+        {% else %}
+        <p> </p>
+        {% endif %}
+        {% endwith %}
+        {% else %}
+        <p> </p>
+        {% endif %}
+        </td>
+        
+      </tr>
+      <tr>
+        
+        <td colspan=2>
+          <strong class="pull-right">Frais d'attente:</strong>
+        </td>
+        
+        <td colspan= 1>
+          {% if client.remise != None %}
+          {% with numerator1=client.remise denominator1=100 %}
+          {% if client.taxe_TPS != None %}
+          {% with numerator2=client.taxe_TPS denominator2=100 %}
+          {% if client.taxe_CSS != None %}
+          {% with numerator=client.taxe_CSS denominator=100 %}
+          {% if client.taxe_CSS != None %}
+        <strong>{{ client.wait_money }} % |  {{order.get_card_very_total|sub:numerator1|div:denominator1|sub:numerator2|div:denominator2|add:numerator|div:denominator|add:client.wait_money}}</strong>F CFA
+          {% else %}
+          <p> </p>
+          {% endif %}
+          {% endwith %}
+          {% else %}
+          <p> </p>
+          {% endif %}
+          {% endwith %}
+          {% else %}
+          <p> </p>
+          {% endif %}
+          {% endwith %}
+          {% else %}
+          <p> </p>
+          {% endif %}
+        </td>
+        
+      </tr>
+      
+      <tr>
+        {% if order.get_cart_total != None and order.get_cart_total_qt != None %}
+        <td colspan=2>
+          <strong class="pull-right">Net à payer Total Ht:</strong>
+        </td>
+        
+        <td colspan= 1>
+          {% if client.remise != None %}
+          {% with numerator1=client.remise denominator1=100 %}
+          {% if client.taxe_TPS != None %}
+          {% with numerator2=client.taxe_TPS denominator2=100 %}
+          {% if client.taxe_CSS != None %}
+          {% with numerator=client.taxe_CSS denominator=100 %}
+          
+        <strong>{{order.get_card_very_total|sub:numerator|div:denominator|add:order.get_card_very_total|sub:numerator1|div:denominator1|sub:numerator|div:denominator|add:order.get_card_very_total|sub:numerator1|div:denominator1|sub:numerator2|div:denominator2|add:numerator|div:denominator}}</strong>F CFA
+        
+        {% endwith %}
+        {% else %}
+        <p> </p>
+        {% endif %}
+        {% endwith %}
+        {% else %}
+        <p> </p>
+        {% endif %}
+        {% endwith %}
+        {% else %}
+        <p> </p>
+        {% endif %}
+        </td>
+        {% endif %}
+      </tr>
+      <tr>
+        <td colspan=1 >
+          <a href="{% url 'home' %}" class="btn btn-light pull-left">
+            {% if order %}Continue {% else %}Add Items to Cart {% endif %}
+          </a> 
+        </td>
+        <td colspan=2>
+          
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div class="container">
+    <p> paye en {{client.modalite_paiement}} fois </p>
+  </div>
+  <br>
+  <br>
+ </section>
+{% endblock %}
+
+{% block scripts %}
+  {{ block.super }}
+  <script>
+  function confirm_delete(){
+    return confirm("Do you want to remove this item from cart?");
+  }
+  </script>
+{% endblock scripts %}

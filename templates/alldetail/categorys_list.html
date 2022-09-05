@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<br>
+<h3>liste des categories</h3><hr>
+<br>
+    {% for i in categorys %}
+        <div class="card text-center">
+            <div class="card-header">
+                N° : {{ i.id }}
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">{{ i.name }}</h5>
+                <p class="card-text">{{ i.descripstion }}.</p>
+                <a href="{% url 'category-detail' i.id%}" class="btn btn-primary">en voir plus</a>
+            </div>
+            <div class="card-footer text-muted">
+                crée le {{i.date_created}}
+            </div>
+        </div>
+        <br>
+        {% empty %}
+        <p> ouh la la vous n'avez pas encore de magazin enregistré</p>
+
+    {% endfor %}
+
+
+{% endblock content %}

@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+    {% load static %}
+
+    {% block content %}
+<br>    
+    <h2>liste complet des articles  |  <a href="{% url 'order_summary' %}">panier <i class="fa-solid fa-cart-shopping"></i></a></h2> <hr>
+    <br>
+        <div class="row">
+            {% for article  in articles %}
+                <div class="col-lg-4 col-sm-6 mb-4" style="max-height:400px;">
+                    <div class="portfolio-item">
+                        <a class="portfolio-link" data-toggle="modal" href="#">
+                            <a href="{% url 'articles-detail' article.id%}"><img class="img-fluid" src="{{ article.article_image.url }}" alt="{{ article.name }}" style="width:100%;max-height:200px;"/></a>
+                        </a>
+                        <div class="portfolio-caption">
+                            <div class="portfolio-caption-heading bg-success text-white">{{ article.name }}</div>
+                                <p class="card-text bg-warning text-dark">Active {{article.active}}</p>
+
+                            <div class="portfolio-caption-subheading bg-primary text-white" style="width:100%;max-height:200px;">model : {{article.model}}</div>
+                            {% if article in user.profile.articles.all %}
+                            <!-- add a button here to see the product -->
+                            You own this
+                            {% elif article in current_order_articles %}
+                            <a href="{% url 'order_summary' %}" class="btn btn-warning">Go to Cart</a>
+                            {% else %}<br>
+                            <a href="{% url 'add_to_cart' article.id %}" class="btn btn-warning">Ajouter au panier</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                
+                {% empty %}
+
+                <h1> ouh la la vous n'avez pas encore d'article</h1>
+
+            {% endfor %}
+            <br>
+            <center>
+                {% if articles.has_other_pages %}
+                <ul class="pagination">
+                    {% if articles.has_previous %}
+                    <li><a href="?page={{ articles.previous_page_number }}">&laquo;</a></li>
+                    {% else %}
+                    <li class="disabled"><span>&laquo;</span></li>
+                    {% endif %}
+                    {% for i in articles.paginator.page_range %}
+                    {% if articles.number == i %}
+                        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                    {% else %}
+                        <li><a href="?page={{ i }}">{{ i }}</a></li>
+                    {% endif %}
+                    {% endfor %}
+                    {% if articles.has_next %}
+                    <li><a href="?page={{ articles.next_page_number }}">&raquo;</a></li>
+                    {% else %}
+                    <li class="disabled"><span>&raquo;</span></li>
+                    {% endif %}
+                </ul>
+                {% endif %}
+            </center>
+            
+
+
+    {% endblock content %}

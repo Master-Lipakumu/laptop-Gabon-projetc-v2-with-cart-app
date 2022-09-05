@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="container" style="background-color:whitesmoke;">
+    <div class="row" style="position:center;text-align:center;margin:0 auto;width:100%;">
+        <div class="clo-12 clo-md-6 mx-auto">
+            <div class="form-group">
+                <legend class="text-uppercase font-weight-bold border-bottom text-center pb-3 mb-5">merci d'avoir choisi Christ-Dev</legende>
+            </div>
+            <div class="media" style="position:center;margin:0 auto;text-align:center;">
+                <img class="rounded-circle account-img img-fluid" style="width:20%;height:10%;" src="{{user.profile.image.url}}" alt="{{user.username}}">
+                <div class="media-body">
+                    <h2 class="account-heading">{{user.username}}</h2>
+                    <p class="text-secondary">{{user.email}}</p>
+                </div>
+            </div><br><br><br><br>
+            <form method="POST" enctype="multipart/form-data" action="{% url 'profile' %}">
+            <legend class="text-uppercase font-weight-bold border-bottom text-center pb-3 mb-5">Editer votre profile</legende><br><br>
+                {% csrf_token%}
+                    <table style="width:100%;">
+
+                        {{u_form|crispy}}
+                        <br>
+                        {{p_form|crispy}}
+                    </table>
+                <div class="form-group">
+                    <button class="btn-outline-info" type="submit">metre a jour</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+    {% block content %}
+
+
+    <div class="container">
+        <section class="mx-auto my-5" style="max-width: 23rem;">
+            
+          <div class="card">
+            <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+              <img src="{{ object.article_image.url }}" alt="{{ object.name }}" class="img-fluid" />
+              <a href="#!">
+                <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+              </a>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title font-weight-bold"><a>nom : {{ object.name }}</a></h5>
+              <ul class="list-unstyled list-inline mb-0">
+                <li class="list-inline-item me-0">
+                  <i class="fas fa-star text-warning fa-xs"> </i>
+                </li>
+                <li class="list-inline-item me-0">
+                  <i class="fas fa-star text-warning fa-xs"></i>
+                </li>
+                <li class="list-inline-item me-0">
+                  <i class="fas fa-star text-warning fa-xs"></i>
+                </li>
+                <li class="list-inline-item me-0">
+                  <i class="fas fa-star text-warning fa-xs"></i>
+                </li>
+                <li class="list-inline-item">
+                  <i class="fas fa-star-half-alt text-warning fa-xs"></i>
+                </li>
+                <li class="list-inline-item">
+                  <p class="text-muted">prix : {{ object.price }} F CFA</p>
+                </li>
+              </ul>
+              <p class="mb-2">model: {{ object.model }}</p>
+              <p class="card-text">
+                {{ object.description }}
+              </p>
+              <hr class="my-4" />
+              <p class="lead"><strong>si actif : {{object.active}}</strong></p>
+              <ul class="list-unstyled list-inline d-flex justify-content-between">
+                <li class="list-inline-item me-0">
+                  <div class="chip me-0">stock I :{{ object.stock }}</div>
+                </li>
+                <li class="list-inline-item me-0">
+                  <div class="chip me-0">stock R :{{ object.stock_total_after }}</div>
+                </li>
+                <li class="list-inline-item me-0">
+                  <div class="chip bg-secondary text-white me-0">mise a jour: {{ object.date_updated }}</div>
+                </li>
+                <li class="list-inline-item me-0">
+                  <div class="chip me-0">crée le : {{ object.date_created }}</div>
+                </li>
+                <li class="list-inline-item me-0">
+                  <div class="chip me-0">produit: {{object.product}}</div>
+                </li>
+              </ul>
+              <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+                <img src="{{ object.barcode.url }}" alt="{{ object.name }}" class="img-fluid" />
+                <a href="#!">
+                  <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                </a>
+              </div>
+              <a href="{% url 'home'%}" class="btn btn-link link-secondary p-md-1 mb-0">revenir à la liste</a>
+              <a href="{% url 'articles-updated' object.id%}" class="btn btn-link link-secondary p-md-1 mb-0">EDITER</a>
+              <a href="{% url 'articles-updated-staff' object.id%}" class="btn btn-link link-secondary p-md-1 mb-0">AJOUTER A UN DOCUMENT</a>
+            </div>
+          </div>
+          
+        </section>
+      </div>
+
+    {% endblock content %}

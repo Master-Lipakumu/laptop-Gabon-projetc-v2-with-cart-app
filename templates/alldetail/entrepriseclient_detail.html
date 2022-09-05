@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<br>
+<div class="card border-success mb-3" style="max-width: 80rem;">
+    <div class="card-header bg-transparent border-success">NOM : {{object.client_Name}} . TYPE : {{ object.nation_choices}} </div>
+    <div class="card-body text-success">
+      <h5 class="card-title">adress: {{object.address}} | email : {{object.email_Address}}</h5>
+      <p class="card-text">BP: {{object.postal_Code}}. Tel: {{ object.phone_number}}.<br> code partenaire: {{object.partenary_code}}, préference de modalité de payement(en combien de fois(x)): x {{object.modalite_paiement}}<br>
+    préference de livraison : {{object.livraison}}, taxe TPS : {{object.taxe_TPS}} %<br>
+Taxe css : {{object.taxe_CSS}} %, remise: {{object.remise}} % <br></p>
+    </div>
+
+    <div class="card-footer bg-transparent border-success">crée le {{object.date_created}} | par {{object.author.username}}</div>
+    <div class="card-footer bg-transparent border-success">derniere mise a jour le {{object.last_updated}}</div>
+
+    <div class="card-footer bg-transparent border-success">DEVIS : {{object.devisentrepriseClient}}</div>
+    <div class="card-footer bg-transparent border-success">bon de livraison : {{object.bonlivraison_entreprise}}</div>
+    <div class="card-footer bg-transparent border-success">facture: {{object.facture}}</div>
+</div>
+
+
+{% endblock content %}

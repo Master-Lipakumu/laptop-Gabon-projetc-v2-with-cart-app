@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<br>
+<div class="content d-flex justify-content-around">
+  <div class="column">
+      <a href="{% url 'alldocuments'%}"><button type="button" class="btn btn-info"><i class="fa-solid fa-arrow-left-long"></i></button></a>
+  </div>
+</div>
+<br>
+<div class="content">
+    <br>
+    <h2> liste complet des demandes de ravitaillement </h2><hr>
+    <h5> nombre total des demandes de ravitaillement : {{total_number}}</h5><hr>
+    <br>
+
+    
+    <button onclick="HtmlTOExcel('xls')" class="btn btn-success">EXCEL</button>
+
+    <br>
+
+    <hr>
+    
+    <table class="table" id="tableToExcel">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">nom du magazin </th>
+          <th scope="col">nom de l'article </th>
+          <th scope="col">nombre d'article </th>
+          <th scope="col">date de création du bon</th>
+          <th scope="col"> autheur du bon </th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for i in ravites %}
+        <tr>
+          <th scope="row">{{i.id}}</th>
+          <td><a href="{% url 'ravite-detail' i.id %}">{{i.shop_name}}</a></td>
+          <td><a href="{% url 'ravite-detail' i.id %}">{{i.article_name}}</a></td>
+          <td><a href="{% url 'ravite-detail' i.id %}">{{i.article_number }}</a></td>
+          <td><a href="{% url 'ravite-detail' i.id %}">{{i.date_created}}</a></td>
+          <td><a href="{% url 'ravite-detail' i.id %}">{{i.author.username}}</a></td>
+        </tr>
+        {% empty %}
+        <p> ouh là là vous n'avez pas encore de facture enregistre </p>
+      {% endfor %}
+      </tbody>
+    </table>
+      
+
+</div>
+
+
+{% endblock content %}

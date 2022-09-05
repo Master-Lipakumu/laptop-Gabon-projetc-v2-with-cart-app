@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<div class="content">
+    <br>
+    <h2> liste complet des entreprises</h2><hr>
+    <br>
+    {% for entreprise in entreprise_clients %}
+    <table class="table table-dark">
+        <thead>
+          <tr>
+            <th scope="col"> ID </th>
+            <th scope="col"> NAME </th>
+            <th scope="col"> PARTENARY CODE </th>
+            <th scope="col"> EMAIL </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">{{ entreprise.id }}</th>
+            <td><a href="{% url 'entreprise-detail' entreprise.id%}">{{ entreprise.client_Name }}</a></td>
+            <td>{{ entreprise.partenary_code }}</td>
+            <td>{{ entreprise.email_Address }}</td>
+          </tr>
+        </tbody>
+      </table>
+      {% empty %}
+        <p> ouh là là vous n'avez pas encore de entreprise enregistre </p>
+      {% endfor %}
+
+</div>
+
+
+{% endblock content %}

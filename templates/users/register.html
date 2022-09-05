@@ -1,0 +1,53 @@
+{% extends "base.html"%}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="container" style="background-color:whitesmoke;">
+
+    <div class="row" style="position:center;text-align:center;margin:0 auto;margin-left:380px;width:100%;">
+
+        <div class="col-8 col-md-4 mx auto">
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+                <div class="form-group" >
+
+                    <legend class="mb-4 pb-3 border-bottom text-uppercase">Rejoignez-nous</legend>
+
+                    <table style="width:100%;">
+
+                        {{ form_register|crispy }}
+
+                    </table>
+
+                </div>
+
+                <div class="form-group">
+
+                    <button class="btn-outline-info" type="submit">Rejoindre</button>
+
+                </div>
+
+                <div class="border-top mt-3">
+
+                    <small class="text-muted">
+
+                        avez vous déjà un compte ? <a class="ml-2" href="{% url 'login'%}">connectez-vous</a>
+
+                    </small>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock content %}
